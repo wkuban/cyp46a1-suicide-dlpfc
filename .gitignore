@@ -1,0 +1,22 @@
+# Public datasets are downloaded, not committed (see data/README.md)
+data/gse144136/
+data/gse101521/
+data/gse213982/
+data/sokolov/
+
+# Cached accumulators from 04_gse213982_pooled.py (regenerable, ~large)
+results/*_accumulators.npz
+
+# Generated figures
+figures/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db

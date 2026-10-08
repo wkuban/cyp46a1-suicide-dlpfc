@@ -1,0 +1,7 @@
+# Lower bounds only; the analyses are not sensitive to these versions.
+# Versions actually used are listed in README.md.
+numpy>=1.24
+pandas>=1.5
+scipy>=1.10
+matplotlib>=3.6
+openpyxl>=3.1      # only for 05_sokolov_lookup.py (reads .xlsx supplements)

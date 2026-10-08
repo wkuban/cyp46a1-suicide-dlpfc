@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper below."
+title: "Analysis code for: CYP46A1 expression in the prefrontal cortex of suicide decedents and public transcriptomic cohorts"
+authors:
+  - family-names: Kuban
+    given-names: Wojciech
+    affiliation: "Maj Institute of Pharmacology, Polish Academy of Sciences, Kraków, Poland"
+  - family-names: Pukło
+    given-names: Renata
+    affiliation: "Maj Institute of Pharmacology, Polish Academy of Sciences, Kraków, Poland"
+  - family-names: Giner
+    given-names: Salvador
+    affiliation: "Institute of Legal Medicine, Alicante, Spain"
+  - family-names: García-Gutiérrez
+    given-names: Maria Salud
+    affiliation: "Instituto de Neurociencias, Universidad Miguel Hernández-CSIC, Alicante, Spain"
+license: MIT
+repository-code: "ADD GITHUB URL"
+preferred-citation:
+  type: article
+  title: "CYP46A1 expression in the prefrontal cortex of suicide decedents and public transcriptomic cohorts"
+  authors:
+    - family-names: Kuban
+      given-names: Wojciech
+    - family-names: Pukło
+      given-names: Renata
+    - family-names: Giner
+      given-names: Salvador
+    - family-names: García-Gutiérrez
+      given-names: Maria Salud
+  year: 2026
+  journal: "ADD JOURNAL ON ACCEPTANCE"
