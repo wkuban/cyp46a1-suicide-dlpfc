@@ -1,0 +1,142 @@
+{
+ "CYP2D6": {
+  "grubbs_control": [
+   0,
+   2.311331073903336,
+   2.4115595184316527
+  ],
+  "grubbs_suicide": [
+   11,
+   2.116089390137046,
+   2.4115595184316527
+  ],
+  "n_after": [
+   12,
+   12
+  ],
+  "p_after_grubbs": 0.04873965095823111,
+  "fold_change_after_grubbs": 0.25057787943176835,
+  "mannwhitney_p": 0.06060196971200614,
+  "mannwhitney_U": 105.0
+ },
+ "CYP46A1": {
+  "grubbs_control": [
+   7,
+   1.9434245596916353,
+   2.4620328685426998
+  ],
+  "grubbs_suicide": [
+   0,
+   1.7645748149917138,
+   2.4115595184316527
+  ],
+  "n_after": [
+   13,
+   12
+  ],
+  "p_after_grubbs": 0.011232846609684691,
+  "fold_change_after_grubbs": 0.24773114683217445,
+  "mannwhitney_p": 0.017977167118610127,
+  "mannwhitney_U": 122.0
+ },
+ "CYP11A1": {
+  "grubbs_control": [
+   9,
+   1.9363721167135286,
+   2.4620328685426998
+  ],
+  "grubbs_suicide": [
+   11,
+   1.898780045565071,
+   2.4115595184316527
+  ],
+  "n_after": [
+   13,
+   12
+  ],
+  "p_after_grubbs": 0.96745456334915,
+  "fold_change_after_grubbs": 1.0242270180449777,
+  "mannwhitney_p": 0.6833131587171801,
+  "mannwhitney_U": 86.0
+ },
+ "CYP17A1": {
+  "grubbs_control": [
+   12,
+   1.7785479605796168,
+   2.4620328685426998
+  ],
+  "grubbs_suicide": [
+   10,
+   1.6389930780679494,
+   2.3547300515655354
+  ],
+  "n_after": [
+   13,
+   11
+  ],
+  "p_after_grubbs": 0.24984859333300885,
+  "fold_change_after_grubbs": 1.5550944176595214,
+  "mannwhitney_p": 0.384820773523065,
+  "mannwhitney_U": 56.0
+ },
+ "CYP19A1": {
+  "grubbs_control": [
+   2,
+   1.5189071774500031,
+   2.4620328685426998
+  ],
+  "grubbs_suicide": [
+   9,
+   2.487822172529225,
+   2.4115595184316527
+  ],
+  "n_after": [
+   13,
+   11
+  ],
+  "p_after_grubbs": 0.28543988672313675,
+  "fold_change_after_grubbs": 0.648893047648046,
+  "mannwhitney_p": 0.6833131587171801,
+  "mannwhitney_U": 86.0
+ },
+ "POR": {
+  "grubbs_control": [
+   10,
+   1.8158886393280869,
+   2.3547300515655354
+  ],
+  "grubbs_suicide": [
+   1,
+   1.6027715609928068,
+   2.4115595184316527
+  ],
+  "n_after": [
+   11,
+   12
+  ],
+  "p_after_grubbs": 0.6085483326461985,
+  "fold_change_after_grubbs": 0.7409544625594569,
+  "mannwhitney_p": 0.7818140034887688,
+  "mannwhitney_U": 71.0
+ },
+ "FDX1": {
+  "grubbs_control": [
+   6,
+   2.0781093767049126,
+   2.1266450871954667
+  ],
+  "grubbs_suicide": [
+   2,
+   1.539167041597205,
+   2.1266450871954667
+  ],
+  "n_after": [
+   8,
+   8
+  ],
+  "p_after_grubbs": 0.5707846558065423,
+  "fold_change_after_grubbs": 0.7227286411786801,
+  "mannwhitney_p": 0.7984459984459983,
+  "mannwhitney_U": 35.0
+ }
+}

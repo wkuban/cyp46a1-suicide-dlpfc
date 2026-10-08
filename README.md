@@ -1,124 +1,78 @@
-# CYP46A1 in the prefrontal cortex of suicide decedents
+# Data
 
-Analysis code and results for:
+## Included in this repository
 
-> Kuban W, Pukło R, Giner S, García-Gutiérrez MS.
-> *CYP46A1 expression in the prefrontal cortex of suicide decedents and public
-> transcriptomic cohorts.*
-> Manuscript in preparation.
+| Path | Contents |
+|---|---|
+| `qpcr/qpcr_relative_expression.csv` | Individual 2<sup>−ΔΔCt</sup> values, all seven targets, both groups. Same values as Supplementary Table S2. |
+| `qpcr/prism_raw_values.json` | The same data as extracted from the original GraphPad Prism tables; read directly by the figure scripts. |
+| `metadata/gse101521_samples.csv` | Diagnosis, age, sex, RIN, PMI and brain pH per sample, from the GSE101521 series matrix (platform GPL16791). |
+| `metadata/gse213982_donors.csv` | Donor, group and sex for all 71 donors in the pooled cohort. |
+| `metadata/gse213982_male_donor_matching.csv` | Barcode-overlap matching of the anonymous male labels in GSE213982 to their GSE144136 donor identity, with the fraction of shared barcodes. |
 
-Everything reported in the paper can be regenerated from this repository: the
-RT-qPCR statistics, the three public-dataset re-analyses, the normalisation
-control, and every figure.
+Everything in `results/` was produced from these files plus the public datasets below.
 
----
+## Not included — download these first
 
-## What this study did
+The three expression datasets total roughly 1.5 GB and are not committed. Download
+them from GEO into the folders shown. Scripts 02 to 05 expect exactly these paths.
 
-RT-qPCR of five cytochrome P450 enzymes and two electron-transfer partners in the
-dorsolateral prefrontal cortex (Brodmann area 9) of 12 male suicide decedents and
-13 male natural-death controls without psychiatric diagnosis, psychotropic
-treatment or positive toxicology.
+### GSE144136 — snRNA-seq, male cohort (≈415 MB)
 
-The two nominally positive findings were then tested against three public
-datasets from the same brain region:
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE144136
 
-| Dataset | Design | What it adds |
-|---|---|---|
-| **GSE144136** | snRNA-seq, 17 male suicide + 17 male controls | cell-type resolution |
-| **GSE101521** | bulk RNA-seq, 29 control / 9 MDD / 21 MDD-suicide | separates suicide from depression |
-| **GSE213982** | snRNA-seq, 71 donors: 38 women plus the GSE144136 men, one pipeline | both sexes, largest cell-resolved comparison |
-
-Two points of method that the code makes explicit:
-
-1. **All RT-qPCR tests run on the ΔCt (log₂) scale**, not on relative expression
-   (2<sup>−ΔΔCt</sup>), which is right-skewed. No data points are excluded from
-   the primary analysis.
-2. **The GSE213982 matrix is not independent of GSE144136** — it contains the same
-   male donors reprocessed. `data/metadata/gse213982_male_donor_matching.csv`
-   documents the barcode-overlap matching that established this.
-
----
-
-## Repository layout
+Into `data/gse144136/`, without unpacking:
 
 ```
-code/
-  01_qpcr_statistics.py          RT-qPCR statistics        -> Table 2, Tables S3-S4
-  02_gse144136_snrnaseq.py       GSE144136 re-analysis     -> Figure 6, Tables S5-S6
-  03_gse101521_bulk.py           GSE101521 re-analysis     -> Figure 7, Tables S7-S9
-  04_gse213982_pooled.py         GSE213982 re-analysis     -> Figure 8A-B, Tables S10-S11
-  05_sokolov_lookup.py           meta-analysis table lookup
-  06_normalisation_control.py    transcript-ratio control  -> Figure 8C-D, Table S12
-  figures/
-    figures_2_to_4.py            Figures 2, 3, 4, 5
-    figure_6.py  figure_7.py  figure_8.py
-
-data/
-  qpcr/                          RT-qPCR values (included)
-  metadata/                      sample and donor tables (included)
-  README.md                      how to obtain the public datasets (not included)
-
-results/                         output of every script (included)
-figures/                         generated figures (created on run)
+GSE144136_GeneBarcodeMatrix_Annotated.mtx.gz
+GSE144136_CellNames.csv.gz
+GSE144136_GeneNames.csv.gz
 ```
 
-## Running it
+Do not download `*premrna.tar.gz` (10 GB); it is not used.
 
-```bash
-pip install -r requirements.txt
+### GSE101521 — bulk RNA-seq, three diagnostic groups (≈13 MB)
 
-python code/01_qpcr_statistics.py        # runs immediately, no download needed
-python code/06_normalisation_control.py  # runs from the committed results
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE101521
 
-python code/figures/figures_2_to_4.py
-python code/figures/figure_7.py
-python code/figures/figure_8.py
+Into `data/gse101521/`:
+
+```
+GSE101521_totalRNA_counts.csv.gz
 ```
 
-Scripts 02 to 05 need the public datasets first — see **[data/README.md](data/README.md)**.
-They resolve their own paths, so they can be run from anywhere.
+Sample annotation is already provided in `metadata/gse101521_samples.csv`. It was
+derived from `GSE101521-GPL16791_series_matrix.txt.gz`, available from the
+`matrix/` subdirectory of the same accession if you wish to regenerate it. Note
+that the counts matrix labels its columns `V1`–`V59`; these correspond to the
+sample titles in the series matrix in the same order.
 
-`04_gse213982_pooled.py` reads a 361-million-entry matrix and caches its
-accumulators to `results/gse213982_accumulators.npz`, so the expensive pass
-happens only once. Delete that file to force a full re-read.
+### GSE213982 — snRNA-seq, pooled female and male cohort (≈1.1 GB)
 
-## Data included here
+https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE213982
 
-`data/qpcr/qpcr_relative_expression.csv` contains the individual
-2<sup>−ΔΔCt</sup> values for all seven targets in both groups — the same values
-published as Supplementary Table S2. Taking log₂ of these recovers the −ΔΔCt
-scale used for inference, so the entire RT-qPCR analysis is reproducible from
-this repository alone.
+Into `data/gse213982/`, without unpacking:
 
-`data/qpcr/prism_raw_values.json` is the same data as extracted from the original
-GraphPad Prism tables, kept because the figure scripts read it directly.
+```
+GSE213982_combined_counts_matrix.mtx.gz
+GSE213982_combined_counts_matrix_cells_columns.csv.gz
+GSE213982_combined_counts_matrix_genes_rows.csv.gz
+```
 
-Raw Ct values are available from the corresponding author on reasonable request.
+This matrix contains both the female donors and the male donors of GSE144136,
+reprocessed through the same pipeline. The two analyses are therefore **not
+independent**; see the manuscript and `metadata/gse213982_male_donor_matching.csv`.
 
-## Software
+### Sokolov et al. meta-analysis supplements (≈105 MB)
 
-Two environments were used, and the paper reports both:
+https://www.nature.com/articles/s41398-026-03978-8
 
-| | Python | SciPy | NumPy | pandas |
-|---|---|---|---|---|
-| RT-qPCR statistics | 3.13.16 | 1.18.1 | 2.5.3 | — |
-| Public-dataset analyses | 3.10.12 | 1.15.3 | 2.2.6 | 2.3.3 |
+Download the Supplementary Data files, unpack any archives, and place the
+resulting tables in `data/sokolov/`. Script 05 scans every table it finds.
 
-The RT-qPCR results were additionally verified in GraphPad Prism 10. Results are
-not sensitive to these versions; `requirements.txt` pins only lower bounds.
+## A note on the MatrixMarket files
 
-## Citing
-
-Please cite the paper. If you use the code itself, see `CITATION.cff`.
-
-## Licence
-
-Code is released under the MIT Licence (`LICENSE`). The public datasets
-re-analysed here remain under the terms set by their original depositors and
-must be cited directly:
-
-- Nagy C, et al. *Nat Neurosci* 2020;23(6):771-781. doi:10.1038/s41593-020-0621-y — GSE144136
-- Pantazatos SP, et al. *Mol Psychiatry* 2017;22(5):760-773. doi:10.1038/mp.2016.130 — GSE101521
-- Maitra M, et al. *Nat Commun* 2023;14(1):2912. doi:10.1038/s41467-023-38530-5 — GSE213982
-- Sokolov AV, et al. *Transl Psychiatry* 2026;16(1):222. doi:10.1038/s41398-026-03978-8
+Both `.mtx.gz` matrices are 1-based. Scripts 02 and 04 decrement both the gene
+and the cell index on reading. Getting this wrong shifts every gene by one row
+and produces plausible-looking but entirely wrong results — the marker-gene
+quality control in both scripts exists to catch exactly that.
