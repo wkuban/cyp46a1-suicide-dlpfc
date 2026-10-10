@@ -123,9 +123,9 @@ res.to_csv(_o("gse101521_tests.csv"), index=False, encoding="utf-8-sig")
 pd.set_option("display.width", 250, "display.max_columns", 40)
 print("="*118); print("PRIMARY TARGETS"); print("="*118)
 show = ["gene","comparison","n1","n2","log2_difference","fold_change","hedges_g","p_welch","p_MW","fc_adj","p_adj"]
-print(res[res.gen.isin(PRIMARY)][show].to_string(index=False, float_format=lambda v:f"{v:.4g}"))
+print(res[res.gene.isin(PRIMARY)][show].to_string(index=False, float_format=lambda v:f"{v:.4g}"))
 print("\n"+"="*118); print("RESZTA PANELU - porownanie kluczowe (MDD-S vs CON)"); print("="*118)
-print(res[(~res.gen.isin(PRIMARY)) & (res.comparison=="MDD-S vs CON")][show].to_string(index=False, float_format=lambda v:f"{v:.4g}"))
+print(res[(~res.gene.isin(PRIMARY)) & (res.comparison=="MDD-S vs CON")][show].to_string(index=False, float_format=lambda v:f"{v:.4g}"))
 
 # ---------- sensitivity: men only ----------
 print("\n"+"="*118); print("SENSITIVITY: MEN ONLY (as in the RT-qPCR cohort)"); print("="*118)
