@@ -195,6 +195,30 @@ def main(folder):
     json.dump({"quality": quality, "statistics": stats_by_gene},
               open(os.path.join(outdir, "qpcr_rebuilt.json"), "w"), indent=1)
 
+    # The same content in the shapes the figure scripts read, so Figures 2-5 can be
+    # regenerated from the rebuilt values without a separate transcription step.
+    rel = collections.defaultdict(lambda: {"raw_ctrl": [], "raw_sui": []})
+    for row in per_donor:
+        gene = row["gene"]
+        if gene not in stats_by_gene:
+            continue
+        value = 2 ** -(row["dct"] - stats_by_gene[gene]["calibrator_dct"])
+        key = "raw_ctrl" if row["group"] == "control" else "raw_sui"
+        rel[gene][key].append(round(value, 4))
+    json.dump(rel, open(os.path.join(outdir, "qpcr_rebuilt_relative.json"), "w"), indent=1)
+    legacy = {}
+    for gene, r in stats_by_gene.items():
+        legacy[gene] = {
+            "nc": r["n_control"], "ns": r["n_case"], "p": r["p"],
+            "mannwhitney_p": r["p_mw"], "q_fdr": r["q_fdr"],
+            "fold_change": r["fold_change"], "fold_change_lo": r["fc_lo"],
+            "fold_change_hi": r["fc_hi"], "hedges_g": r["hedges_g"],
+            "eta2": r["eta2"], "ddct_control_mean": 0.0,
+            "ddct_control_sd": r["sd_control"], "ddct_suicide_mean": r["ddct"],
+            "ddct_suicide_sd": r["sd_case"],
+        }
+    json.dump(legacy, open(os.path.join(outdir, "qpcr_statistics_rebuilt.json"), "w"), indent=1)
+
     print(f"{'gene':9} {'medCt':>6} {'call rate':>10} {'donors C/S':>11} {'analysed':>9}")
     for g in sorted(quality):
         q = quality[g]
