@@ -1,0 +1,206 @@
+{
+ "quality": {
+  "AKR1B1": {
+   "median_ct": 30.7,
+   "call_rate": 1.0,
+   "donors": {
+    "control": 1,
+    "suicide": 7
+   },
+   "prespecified": false,
+   "analysed": false
+  },
+  "CYC1": {
+   "median_ct": 32.1,
+   "call_rate": 0.857,
+   "donors": {
+    "control": 6,
+    "suicide": 8
+   },
+   "prespecified": false,
+   "analysed": false
+  },
+  "CYP11A1": {
+   "median_ct": 35.94,
+   "call_rate": 0.733,
+   "donors": {
+    "control": 12,
+    "suicide": 8
+   },
+   "prespecified": true,
+   "analysed": false
+  },
+  "CYP11B2": {
+   "median_ct": 24.72,
+   "call_rate": 0.094,
+   "donors": {
+    "control": 4,
+    "suicide": 0
+   },
+   "prespecified": false,
+   "analysed": false
+  },
+  "CYP17A1": {
+   "median_ct": 38.41,
+   "call_rate": 0.36,
+   "donors": {
+    "control": 9,
+    "suicide": 6
+   },
+   "prespecified": true,
+   "analysed": false
+  },
+  "CYP19A1": {
+   "median_ct": 34.32,
+   "call_rate": 0.987,
+   "donors": {
+    "control": 13,
+    "suicide": 12
+   },
+   "prespecified": true,
+   "analysed": true
+  },
+  "CYP2D6": {
+   "median_ct": 34.41,
+   "call_rate": 0.92,
+   "donors": {
+    "control": 13,
+    "suicide": 12
+   },
+   "prespecified": true,
+   "analysed": true
+  },
+  "CYP46A1": {
+   "median_ct": 31.08,
+   "call_rate": 0.95,
+   "donors": {
+    "control": 10,
+    "suicide": 9
+   },
+   "prespecified": true,
+   "analysed": true
+  },
+  "EIF4A2": {
+   "median_ct": 36.72,
+   "call_rate": 0.507,
+   "donors": {
+    "control": 9,
+    "suicide": 7
+   },
+   "prespecified": false,
+   "analysed": false
+  },
+  "FDX1": {
+   "median_ct": 25.33,
+   "call_rate": 1.0,
+   "donors": {
+    "control": 5,
+    "suicide": 8
+   },
+   "prespecified": true,
+   "analysed": true
+  },
+  "POR": {
+   "median_ct": 23.58,
+   "call_rate": 1.0,
+   "donors": {
+    "control": 6,
+    "suicide": 8
+   },
+   "prespecified": true,
+   "analysed": true
+  }
+ },
+ "statistics": {
+  "CYP19A1": {
+   "n_control": 13,
+   "n_case": 12,
+   "ddct": 0.28553320403791815,
+   "fold_change": 0.8204383278902635,
+   "fc_lo": 0.3230358037695704,
+   "fc_hi": 2.0837289304052637,
+   "t": 0.4393970611205991,
+   "df": 22.869089585327888,
+   "p": 0.6644978901049133,
+   "p_mw": 0.6833131587171801,
+   "hedges_g": -0.1689807160146068,
+   "eta2": 0.008371712912283003,
+   "sd_control": 1.7526048703102364,
+   "sd_case": 1.4939868111965995,
+   "calibrator_dct": 14.503773224659454,
+   "q_fdr": 0.8306223626311416
+  },
+  "CYP2D6": {
+   "n_control": 13,
+   "n_case": 12,
+   "ddct": 1.9343524631272029,
+   "fold_change": 0.2616386420561627,
+   "fc_lo": 0.06828988846313559,
+   "fc_hi": 1.002414567625868,
+   "t": 2.104426825857525,
+   "df": 17.171449443112525,
+   "p": 0.050368875284449444,
+   "p_mw": 0.060579437479428296,
+   "hedges_g": -0.8322028083373464,
+   "eta2": 0.20502775988115698,
+   "sd_control": 1.5918678037103327,
+   "sd_case": 2.792784005977684,
+   "calibrator_dct": 13.693283863556688,
+   "q_fdr": 0.15538933312790904
+  },
+  "CYP46A1": {
+   "n_control": 10,
+   "n_case": 9,
+   "ddct": 1.8283864904333065,
+   "fold_change": 0.28157936338494954,
+   "fc_lo": 0.07377094132261913,
+   "fc_hi": 1.0747719422140958,
+   "t": 1.9990640662398955,
+   "df": 16.689893153491138,
+   "p": 0.06215573325116361,
+   "p_mw": 0.11134688653314041,
+   "hedges_g": -0.8785889706150005,
+   "eta2": 0.1931851545141791,
+   "sd_control": 1.9645728165893606,
+   "sd_case": 2.013751893449882,
+   "calibrator_dct": 10.140013122558594,
+   "q_fdr": 0.15538933312790904
+  },
+  "FDX1": {
+   "n_control": 5,
+   "n_case": 8,
+   "ddct": 0.3295020898183205,
+   "fold_change": 0.7958110906987251,
+   "fc_lo": 0.2995476127086686,
+   "fc_hi": 2.114239156681375,
+   "t": 0.534934292177757,
+   "df": 8.367381910249483,
+   "p": 0.6066152878346565,
+   "p_mw": 0.8329448329448329,
+   "hedges_g": -0.2275103068712594,
+   "eta2": 0.03306794781566201,
+   "sd_control": 0.4218574704997166,
+   "sd_case": 1.658488718300642,
+   "calibrator_dct": 4.61657231648763,
+   "q_fdr": 0.8306223626311416
+  },
+  "POR": {
+   "n_control": 6,
+   "n_case": 8,
+   "ddct": -0.06515743997361856,
+   "fold_change": 1.0461991043023673,
+   "fc_lo": 0.21144341068203235,
+   "fc_hi": 5.176479902175949,
+   "t": 0.06283426985880623,
+   "df": 10.11991939815733,
+   "p": 0.9511222389822451,
+   "p_mw": 0.662004662004662,
+   "hedges_g": 0.028620293347242455,
+   "eta2": 0.00038998391194628335,
+   "sd_control": 1.1477276411277637,
+   "sd_case": 2.616511420923133,
+   "calibrator_dct": 3.4696255789862733,
+   "q_fdr": 0.9511222389822451
+  }
+ }
+}
