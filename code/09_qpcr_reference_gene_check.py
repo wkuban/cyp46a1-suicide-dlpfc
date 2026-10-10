@@ -17,30 +17,43 @@ ARTEFACT_BELOW = 15.0
 
 
 def read_plate(path):
-    """Return (rows, meta). Header row is located by name, not position, because
-    the exports differ in how much metadata precedes it."""
+    """Return one record per reaction well.
+
+    These exports are not uniformly aligned: on rows where a well has no sample
+    name a cell is missing, so the data shift left relative to the header and a
+    fixed column index reads the wrong field (the assay label lands on the Ct
+    column, or a flag column is read as a Ct of 1.0). Column positions are
+    therefore taken from the header but corrected per row by the offset between
+    the assay label's actual position and its header position.
+    """
     book = xlrd.open_workbook(path)
     sheet = book.sheet_by_name("Results")
     head = None
     for r in range(sheet.nrows):
-        vals = [str(sheet.cell_value(r, c)).strip() for c in range(sheet.ncols)]
-        if "Well Position" in vals:
-            head, hdr = r, vals
+        v = [str(sheet.cell_value(r, c)).strip() for c in range(sheet.ncols)]
+        if "Well Position" in v and "Target Name" in v:
+            head, hdr = r, v
             break
     if head is None:
         raise ValueError(f"no header row in {path}")
-    idx = {name: i for i, name in enumerate(hdr) if name}
+    col = {name: i for i, name in enumerate(hdr) if name}
     rows = []
     for r in range(head + 1, sheet.nrows):
         v = [str(sheet.cell_value(r, c)).strip() for c in range(sheet.ncols)]
-        well = v[idx["Well Position"]]
+        assay = next((i for i, x in enumerate(v) if re.search(r"\b(GOI|HKG)", x)), None)
+        if assay is None:
+            continue
+        shift = assay - col["Target Name"]
+        def cell(name):
+            i = col[name] + shift
+            return v[i] if 0 <= i < len(v) else ""
+        well = cell("Well Position")
         if not re.match(r"^[A-H]\d{1,2}$", well or ""):
             continue
-        rows.append({"plate": os.path.basename(path),
-                     "well": well,
-                     "sample": v[idx["Sample Name"]],
-                     "target": v[idx["Target Name"]],
-                     "ct": v[idx["CT"]]})
+        sample = cell("Sample Name")
+        rows.append({"plate": os.path.basename(path), "well": well,
+                     "sample": sample if re.match(r"^(C|S)\d+$|^NC$", sample or "") else "",
+                     "target": v[assay], "ct": cell("CT")})
     return rows
 
 
