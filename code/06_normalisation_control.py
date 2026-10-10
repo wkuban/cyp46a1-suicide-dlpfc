@@ -7,17 +7,16 @@ An apparent difference in a single gene can arise from a shift in overall
 transcript composition rather than from that gene. CYP46A1 is therefore
 expressed per donor as a ratio to three neuronal reference transcripts measured
 in the same nuclei (SNAP25, SLC17A7, RBFOX3), and the ratios are tested on the
-log2 scale. Cell-class proportions are compared between groups for the same
-reason.
+log2 scale. Cell-class proportions are compared separately, in
+08_cell_proportions.py, which uses the complete nucleus annotation.
 
 These are single-gene control analyses and are reported without further
 multiple-testing correction.
 
 Input : results/gse213982_pseudobulk.csv
 Output: results/gse213982_normalisation_control.csv
-        results/gse213982_cell_proportions.csv
 
-Reproduces Figure 8C-D and Supplementary Table S12.
+Reproduces Figure 8C and the transcript-ratio rows of Supplementary Table S12.
 """
 import os
 
@@ -31,7 +30,6 @@ RES = os.path.join(ROOT, "results")
 GENE = "CYP46A1"
 REFERENCES = ["SNAP25", "SLC17A7", "RBFOX3"]
 CLASSES = ["ExN", "InN", "ALL"]
-PROPORTION_CLASSES = ["ExN", "InN", "Oli", "Ast", "OPC", "End", "Mic", "Mix"]
 
 
 def welch_with_ci(a, b):
@@ -69,26 +67,9 @@ def main():
     ratios = pd.DataFrame(rows)
     ratios.to_csv(os.path.join(RES, "gse213982_normalisation_control.csv"), index=False)
 
-    # ---- cell-class proportions ----
-    n = P[P.gene == GENE][["donor", "cell_class", "group", "n_nuclei"]]
-    total = n[n.cell_class == "ALL"].set_index("donor").n_nuclei
-    sub = n[n.cell_class != "ALL"].copy()
-    sub["pct"] = sub.n_nuclei / sub.donor.map(total) * 100
-    prop = []
-    for cls in PROPORTION_CLASSES:
-        a = sub.pct[(sub.cell_class == cls) & (sub.group == "Control")].values
-        b = sub.pct[(sub.cell_class == cls) & (sub.group == "Case")].values
-        prop.append({"cell_class": cls,
-                     "control_pct": a.mean(), "case_pct": b.mean(),
-                     "p": stats.ttest_ind(a, b, equal_var=False).pvalue})
-    proportions = pd.DataFrame(prop)
-    proportions.to_csv(os.path.join(RES, "gse213982_cell_proportions.csv"), index=False)
-
     pd.set_option("display.width", 200)
     print("Ratio to neuronal reference transcripts\n")
     print(ratios.to_string(index=False, float_format=lambda v: f"{v:.4g}"))
-    print("\n\nCell-class proportions (% of nuclei per donor)\n")
-    print(proportions.to_string(index=False, float_format=lambda v: f"{v:.4g}"))
     print(f"\nWritten to {RES}")
 
 

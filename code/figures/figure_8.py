@@ -105,9 +105,9 @@ ax.text(-0.42,1.06,'C',transform=ax.transAxes,fontsize=12,fontweight='bold',va='
 
 # ---------- D: sklad komorkowy ----------
 ax=fig.add_subplot(gs[1,1])
-n_=P[P.gene=='CYP46A1'][['donor','cell_class','group','n_nuclei']]
-tot=n_[n_.cell_class=='ALL'].set_index('donor').n_nuclei
-s=n_[n_.cell_class!='ALL'].copy(); s['pct']=s.n_nuclei/s.donor.map(tot)*100
+# proportions come from the complete nucleus annotation (08_cell_proportions.py),
+# not from the pseudobulk table, which keeps only donor x class with >=20 nuclei
+s=pd.read_csv(_r('gse213982_nuclei_counts.csv'))
 cls=['ExN','InN','Oli','Ast','OPC','End','Mic','Mix']
 w=0.36
 for j,(gr,col) in enumerate([('Control',CC),('Case',SC)]):

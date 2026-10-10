@@ -49,8 +49,7 @@ code/
   03_gse101521_bulk.py           GSE101521 re-analysis     -> Figure 7, Tables S7-S9
   04_gse213982_pooled.py         GSE213982 re-analysis     -> Figure 8A-B, Tables S10-S11
   05_sokolov_lookup.py           meta-analysis table lookup
-  06_normalisation_control.py    transcript-ratio control  -> Figure 8C-D, Table S12
-  07_equivalence_and_power.py    TOST and power (GSE101521) -> Results 3.7, Table S9
+  06_normalisation_control.py    transcript-ratio control  -> Figure 8C, Table S12
   figures/
     figures_2_to_4.py            Figures 2, 3, 4, 5
     figure_6.py  figure_7.py  figure_8.py
@@ -69,9 +68,8 @@ figures/                         generated figures (created on run)
 ```bash
 pip install -r requirements.txt
 
-python code/01_qpcr_statistics.py          # runs immediately, no download needed
-python code/06_normalisation_control.py    # runs from the committed results
-python code/07_equivalence_and_power.py    # runs from the committed results
+python code/01_qpcr_statistics.py        # runs immediately, no download needed
+python code/06_normalisation_control.py  # runs from the committed results
 
 python code/figures/figures_2_to_4.py
 python code/figures/figure_7.py
