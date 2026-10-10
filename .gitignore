@@ -8,7 +8,7 @@ data/sokolov/
 results/*_accumulators.npz
 
 # Generated figures
-figures/
+/figures/
 
 # Python
 __pycache__/
