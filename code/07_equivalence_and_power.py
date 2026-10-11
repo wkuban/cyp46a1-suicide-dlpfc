@@ -10,9 +10,12 @@ are run against equivalence bounds expressed on the standardised scale
 those sizes is computed from the noncentral t distribution.
 
 Bounds are the Hedges' g values observed by RT-qPCR for each gene
-separately, plus a conventional medium bound of |g| = 0.5.
+separately, plus a conventional medium bound of |g| = 0.5. The RT-qPCR
+estimates are read from the rebuilt analysis rather than hard-coded, so the
+bounds follow the data instead of having to be kept in step by hand.
 
 Input : results/gse101521_expression.csv   (committed)
+        results/qpcr_rebuilt.json          (RT-qPCR effect sizes)
 Output: results/gse101521_equivalence_power.csv
 
 Reproduces the TOST and power values reported in Results 3.7 and Table S9.
@@ -26,8 +29,14 @@ from scipy import stats
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RES = os.path.join(ROOT, "results")
 
-# Hedges' g observed by RT-qPCR, per gene (see results/qpcr_statistics.json)
-QPCR_G = {"CYP46A1": 1.08, "CYP2D6": 0.83}
+def qpcr_effect_sizes():
+    """|Hedges' g| per gene from the rebuilt RT-qPCR analysis."""
+    import json
+    stats_ = json.load(open(os.path.join(RES, "qpcr_rebuilt.json")))["statistics"]
+    return {g: round(abs(stats_[g]["hedges_g"]), 2) for g in ("CYP46A1", "CYP2D6")}
+
+
+QPCR_G = None   # filled in main() from the rebuilt results
 EXTRA_BOUND = 0.5
 ALPHA = 0.05
 
@@ -58,6 +67,9 @@ def power_two_sample(g, na, nb, alpha=ALPHA):
 
 
 def main():
+    global QPCR_G
+    QPCR_G = qpcr_effect_sizes()
+    print("equivalence bounds from the rebuilt RT-qPCR effect sizes:", QPCR_G)
     E = pd.read_csv(os.path.join(RES, "gse101521_expression.csv"))
     rows = []
     for gene, g_qpcr in QPCR_G.items():
