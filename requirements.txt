@@ -5,3 +5,4 @@ pandas>=1.5
 scipy>=1.10
 matplotlib>=3.6
 openpyxl>=3.1      # only for 05_sokolov_lookup.py (reads .xlsx supplements)
+xlrd>=2.0          # only for 09/10 (reads the QuantStudio .xls exports)

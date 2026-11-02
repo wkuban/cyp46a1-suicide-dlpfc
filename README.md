@@ -3,9 +3,8 @@
 Analysis code and results for:
 
 > Kuban W, Pukło R, Giner S, García-Gutiérrez MS.
-> *CYP46A1 expression in the prefrontal cortex of suicide decedents and public
-> transcriptomic cohorts.*
-> Manuscript in preparation.
+> *CYP46A1 expression in the dorsolateral prefrontal cortex of suicide decedents.*
+> Manuscript in preparation (Journal of Psychiatric Research).
 
 Everything reported in the paper can be regenerated from this repository: the
 RT-qPCR statistics, the three public-dataset re-analyses, the normalisation
@@ -15,13 +14,15 @@ control, and every figure.
 
 ## What this study did
 
-RT-qPCR of five cytochrome P450 enzymes and two electron-transfer partners in the
+RT-qPCR of cytochrome P450 transcripts and two electron-transfer partners in the
 dorsolateral prefrontal cortex (Brodmann area 9) of 12 male suicide decedents and
-13 male natural-death controls without psychiatric diagnosis, psychotropic
-treatment or positive toxicology.
+13 male natural-death controls, none with a documented psychiatric diagnosis,
+psychotropic treatment or positive toxicology. Five targets were quantifiable
+(CYP46A1, CYP2D6, CYP19A1, POR, FDX1); CYP11A1 and CYP17A1 amplified at or beyond
+the limit of quantification and were not analysed.
 
-The two nominally positive findings were then tested against three public
-datasets from the same brain region:
+CYP46A1 and CYP2D6, the two targets at the margin of nominal significance, were
+then examined in three public datasets from the same brain region:
 
 | Dataset | Design | What it adds |
 |---|---|---|
@@ -29,12 +30,18 @@ datasets from the same brain region:
 | **GSE101521** | bulk RNA-seq, 29 control / 9 MDD / 21 MDD-suicide | separates suicide from depression |
 | **GSE213982** | snRNA-seq, 71 donors: 38 women plus the GSE144136 men, one pipeline | both sexes, largest cell-resolved comparison |
 
-Two points of method that the code makes explicit:
+Three points of method that the code makes explicit:
 
-1. **All RT-qPCR tests run on the ΔCt (log₂) scale**, not on relative expression
+1. **Every ΔCt is formed within one plate sample.** Script 10 rebuilds the RT-qPCR
+   analysis directly from the QuantStudio exports, pairing each target Ct with
+   the B2M Ct of the same sample. An earlier per-donor table had been assembled
+   column by column and could pair one donor's target with another donor's B2M;
+   that table and the statistics derived from it have been removed from this
+   repository and are superseded by `results/qpcr_rebuilt_*`.
+2. **All RT-qPCR tests run on the ΔCt (log₂) scale**, not on relative expression
    (2<sup>−ΔΔCt</sup>), which is right-skewed. No data points are excluded from
    the primary analysis.
-2. **The GSE213982 matrix is not independent of GSE144136** — it contains the same
+3. **The GSE213982 matrix is not independent of GSE144136** — it contains the same
    male donors reprocessed. `data/metadata/gse213982_male_donor_matching.csv`
    documents the barcode-overlap matching that established this.
 
@@ -44,18 +51,21 @@ Two points of method that the code makes explicit:
 
 ```
 code/
-  01_qpcr_statistics.py          RT-qPCR statistics        -> Table 2, Tables S3-S4
-  02_gse144136_snrnaseq.py       GSE144136 re-analysis     -> Figure 6, Tables S5-S6
-  03_gse101521_bulk.py           GSE101521 re-analysis     -> Figure 7, Tables S7-S9
-  04_gse213982_pooled.py         GSE213982 re-analysis     -> Figure 8A-B, Tables S10-S11
+  02_gse144136_snrnaseq.py       GSE144136 re-analysis       -> Figure 6, Tables S5-S6
+  03_gse101521_bulk.py           GSE101521 re-analysis       -> Figure 7, Tables S7-S8
+  04_gse213982_pooled.py         GSE213982 re-analysis       -> Figure 8A-B, Tables S10-S11
   05_sokolov_lookup.py           meta-analysis table lookup
-  06_normalisation_control.py    transcript-ratio control  -> Figure 8C, Table S12
+  06_normalisation_control.py    transcript-ratio control    -> Figure 8C, Table S12
+  07_equivalence_and_power.py    TOST and power in GSE101521 -> Table S9
+  08_cell_proportions.py         cell-class proportions      -> Figure 8D, Table S12
+  09_qpcr_reference_gene_check.py  B2M and candidate reference genes from the exports -> Table S13
+  10_qpcr_rebuild_from_exports.py  RT-qPCR statistics from the exports -> Table 2, Tables S2-S3, S13
+  11_qpcr_sensitivity.py         Mann-Whitney and Grubbs sensitivity analyses -> Table S4
   figures/
-    figures_2_to_4.py            Figures 2, 3, 4, 5
+    figures_2_to_5.py            Figures 2, 3, 4, 5
     figure_6.py  figure_7.py  figure_8.py
 
 data/
-  qpcr/                          RT-qPCR values (included)
   metadata/                      sample and donor tables (included)
   README.md                      how to obtain the public datasets (not included)
 
@@ -68,16 +78,21 @@ figures/                         generated figures (created on run)
 ```bash
 pip install -r requirements.txt
 
-python code/01_qpcr_statistics.py        # runs immediately, no download needed
+python code/11_qpcr_sensitivity.py       # runs from the committed per-donor table
 python code/06_normalisation_control.py  # runs from the committed results
+python code/07_equivalence_and_power.py
 
-python code/figures/figures_2_to_4.py
+python code/figures/figures_2_to_5.py    # all figure scripts run from results/
+python code/figures/figure_6.py
 python code/figures/figure_7.py
 python code/figures/figure_8.py
 ```
 
-Scripts 02 to 05 need the public datasets first — see **[data/README.md](data/README.md)**.
-They resolve their own paths, so they can be run from anywhere.
+Scripts 02 to 05 and 08 need the public datasets first — see
+**[data/README.md](data/README.md)**. Scripts 09 and 10 need the QuantStudio
+`.xls` exports (`python code/10_qpcr_rebuild_from_exports.py data/qpcr_exports`),
+which are not committed; their output is. All scripts resolve their own paths,
+so they can be run from anywhere.
 
 `04_gse213982_pooled.py` reads a 361-million-entry matrix and caches its
 accumulators to `results/gse213982_accumulators.npz`, so the expensive pass
@@ -85,16 +100,14 @@ happens only once. Delete that file to force a full re-read.
 
 ## Data included here
 
-`data/qpcr/qpcr_relative_expression.csv` contains the individual
-2<sup>−ΔΔCt</sup> values for all seven targets in both groups — the same values
-published as Supplementary Table S2. Taking log₂ of these recovers the −ΔΔCt
-scale used for inference, so the entire RT-qPCR analysis is reproducible from
-this repository alone.
+`results/qpcr_rebuilt_per_donor.csv` contains, for every donor and gene, the
+mean target Ct, the number and range of the replicates, the B2M Ct of the same
+plate sample and the resulting ΔCt. Supplementary Table S2 (individual
+2<sup>−ΔΔCt</sup> values) and all RT-qPCR statistics follow from this file, so
+the group comparison is reproducible from the repository alone.
 
-`data/qpcr/prism_raw_values.json` is the same data as extracted from the original
-GraphPad Prism tables, kept because the figure scripts read it directly.
-
-Raw Ct values are available from the corresponding author on reasonable request.
+The instrument exports themselves are available from the corresponding author on
+reasonable request.
 
 ## Software
 
@@ -105,8 +118,8 @@ Two environments were used, and the paper reports both:
 | RT-qPCR statistics | 3.13.16 | 1.18.1 | 2.5.3 | — |
 | Public-dataset analyses | 3.10.12 | 1.15.3 | 2.2.6 | 2.3.3 |
 
-The RT-qPCR results were additionally verified in GraphPad Prism 10. Results are
-not sensitive to these versions; `requirements.txt` pins only lower bounds.
+Results are not sensitive to these versions; `requirements.txt` pins only lower
+bounds.
 
 ## Citing
 

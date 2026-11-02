@@ -1,0 +1,6 @@
+gene,n_control,n_suicide,p_welch_all,U_control,p_mannwhitney,grubbs_flagged,n_control_after_grubbs,n_suicide_after_grubbs,p_welch_after_grubbs,fold_change_after_grubbs
+CYP46A1,10,9,0.0621,25,0.1113,none,10,9,0.0621,0.282
+CYP2D6,13,12,0.0503,43,0.0606,none,13,12,0.0503,0.262
+CYP19A1,13,12,0.6646,70,0.6833,S15 (suicide),13,11,0.2857,0.649
+POR,6,8,0.9512,28,0.662,none,6,8,0.9512,1.046
+FDX1,5,8,0.6067,18,0.8329,none,5,8,0.6067,0.796
