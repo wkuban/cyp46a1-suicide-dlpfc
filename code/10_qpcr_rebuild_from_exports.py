@@ -15,7 +15,8 @@ does not enter the statistics.
 
 Usage:  python 10_qpcr_rebuild_from_exports.py <dir with the .xls exports>
 
-Output: results/qpcr_rebuilt_per_donor.csv   (per sample and gene)
+Output: results/qpcr_rebuilt_per_donor.csv   (per sample and gene; Delta Ct only)
+        results/qpcr_rebuilt_per_donor_with_ct.csv  (the same with Ct values; not committed)
         results/qpcr_rebuilt_summary.csv     (per gene, group comparison)
         results/qpcr_rebuilt.json
 """
@@ -181,7 +182,13 @@ def main(folder):
 
     outdir = os.path.join(ROOT, "results")
     os.makedirs(outdir, exist_ok=True)
+    # The committed per-donor table carries Delta Ct only; the Ct values behind it
+    # go to a separate file that is not committed (raw Ct are available on request).
+    public_cols = ["gene", "sample", "group", "replicates", "replicate_range", "dct"]
     with open(os.path.join(outdir, "qpcr_rebuilt_per_donor.csv"), "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=public_cols, extrasaction="ignore")
+        w.writeheader(); w.writerows(per_donor)
+    with open(os.path.join(outdir, "qpcr_rebuilt_per_donor_with_ct.csv"), "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(per_donor[0].keys()))
         w.writeheader(); w.writerows(per_donor)
     with open(os.path.join(outdir, "qpcr_rebuilt_summary.csv"), "w", newline="") as f:

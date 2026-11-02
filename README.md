@@ -101,13 +101,13 @@ happens only once. Delete that file to force a full re-read.
 ## Data included here
 
 `results/qpcr_rebuilt_per_donor.csv` contains, for every donor and gene, the
-mean target Ct, the number and range of the replicates, the B2M Ct of the same
-plate sample and the resulting ΔCt. Supplementary Table S2 (individual
+ΔCt (target − B2M, both from the same plate sample) and the number and Ct range
+of the target replicates. Supplementary Table S2 (individual
 2<sup>−ΔΔCt</sup> values) and all RT-qPCR statistics follow from this file, so
 the group comparison is reproducible from the repository alone.
 
-The instrument exports themselves are available from the corresponding author on
-reasonable request.
+Raw Ct values and the instrument exports are available from the corresponding
+author on reasonable request.
 
 ## Software
 

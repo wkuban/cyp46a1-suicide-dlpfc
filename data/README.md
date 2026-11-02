@@ -4,7 +4,7 @@
 
 | Path | Contents |
 |---|---|
-| `../results/qpcr_rebuilt_per_donor.csv` | RT-qPCR values per donor and gene, rebuilt from the QuantStudio exports: mean Ct of the target, number and range of the replicates, mean Ct of B2M from the same plate sample, and ΔCt. Supplementary Table S2 is derived from this file. |
+| `../results/qpcr_rebuilt_per_donor.csv` | RT-qPCR values per donor and gene, rebuilt from the QuantStudio exports: ΔCt (target − B2M, both from the same plate sample) with the number and Ct range of the target replicates. Supplementary Table S2 is derived from this file. |
 | `metadata/gse101521_samples.csv` | Diagnosis, age, sex, RIN, PMI and brain pH per sample, from the GSE101521 series matrix (platform GPL16791). |
 | `metadata/gse213982_donors.csv` | Donor, group and sex for all 71 donors in the pooled cohort. |
 | `metadata/gse213982_male_donor_matching.csv` | Barcode-overlap matching of the anonymous male labels in GSE213982 to their GSE144136 donor identity, with the fraction of shared barcodes. |

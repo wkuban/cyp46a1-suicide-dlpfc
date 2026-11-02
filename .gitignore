@@ -4,6 +4,9 @@ data/gse101521/
 data/gse213982/
 data/sokolov/
 
+# Per-donor Ct values (raw Ct are available on request)
+results/qpcr_rebuilt_per_donor_with_ct.csv
+
 # Cached accumulators from 04_gse213982_pooled.py (regenerable, ~large)
 results/*_accumulators.npz
 
