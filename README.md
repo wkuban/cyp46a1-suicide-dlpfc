@@ -1,10 +1,14 @@
-# CYP46A1 in the prefrontal cortex of suicide decedents
+# CYP46A1 in the dorsolateral prefrontal cortex of suicide decedents
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24003942.svg)](https://doi.org/10.5281/zenodo.24003942)
 
 Analysis code and results for:
 
 > Kuban W, Pukło R, Giner S, García-Gutiérrez MS.
 > *CYP46A1 expression in the dorsolateral prefrontal cortex of suicide decedents.*
-> Manuscript in preparation (Journal of Psychiatric Research).
+> Submitted to the Journal of Psychiatric Research.
+
+Archived at Zenodo: https://doi.org/10.5281/zenodo.24003942 (concept DOI, resolves to the latest release; v1.0.0 is the submission version).
 
 Everything reported in the paper can be regenerated from this repository: the
 RT-qPCR statistics, the three public-dataset re-analyses, the normalisation
